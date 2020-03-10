@@ -1,0 +1,98 @@
+﻿CREATE TABLE [dbo].[Book](
+	[Id] [INT] IDENTITY(1000,1) NOT NULL,
+	[Title] [NVARCHAR](300) NOT NULL,
+	[Author] [NVARCHAR](200) NOT NULL,
+	[Classification] [VARCHAR](20) NOT NULL,
+	[Genre] [VARCHAR](20) NOT NULL,
+	[Description] [NVARCHAR](MAX) NOT NULL,
+ CONSTRAINT [PK_Book] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+INSERT INTO dbo.Book
+(
+    Title
+   ,Author
+   ,Classification
+   ,Genre
+   ,Description
+)
+VALUES (N'Carrion Comfort' -- Title - nvarchar(300)
+       ,N'Dan Simmons' -- Author - nvarchar(200)
+       ,'Fiction' -- Classification - varchar(20)
+       ,'Horror' -- Genre - varchar(20)
+       ,N'Mind-vampires extert their control over others throughout the course of recent history.' -- Description - nvarchar(max)
+    )
+
+INSERT INTO dbo.Book
+(
+    Title
+   ,Author
+   ,Classification
+   ,Genre
+   ,Description
+)
+VALUES (N'American Gods' -- Title - nvarchar(300)
+       ,N'Neil Gaiman' -- Author - nvarchar(200)
+       ,'Fiction' -- Classification - varchar(20)
+       ,'Sci-Fi/Fantasy' -- Genre - varchar(20)
+       ,N'Crazy road trip across America involving a war between the old gods and new ones.' -- Description - nvarchar(max)
+    )
+
+
+go
+
+CREATE PROCEDURE dbo.GetAllBooks 
+AS 
+SELECT b.Id
+      ,b.Title
+      ,b.Author
+      ,b.Classification
+      ,b.Genre
+      ,b.Description 
+FROM dbo.Book b
+
+
+
+ALTER TABLE [dbo].[Book] ADD [Isbn] VARCHAR(20)
+
+ALTER TABLE [dbo].[Book] ADD [Submitter] INT
+
+
+
+UPDATE book SET isbn = '0312567073' WHERE id = 1000
+UPDATE book SET isbn = '0060558121' WHERE id = 1001
+UPDATE dbo.Book SET Submitter = 111
+
+
+CREATE PROCEDURE dbo.InsertBook
+	@Title NVARCHAR(300),
+	@Author NVARCHAR(200),
+	@Classification VARCHAR(20),
+	@Genre VARCHAR(20),
+	@Isbn VARCHAR(20),
+	@Submitter INT
+AS
+INSERT INTO dbo.Book
+(
+    Title
+   ,Author
+   ,Classification
+   ,Genre
+   ,Description
+   ,Isbn
+   ,Submitter
+)
+VALUES (@Title
+       ,@Author
+       ,@Classification
+       ,@Genre
+       ,'' -- Description - nvarchar(max)
+       ,@Isbn
+	   ,@Submitter
+    )
+
